@@ -3,7 +3,10 @@ package otus.study.cashmachine.machine.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import otus.study.cashmachine.TestUtil;
 import otus.study.cashmachine.bank.dao.CardsDao;
@@ -101,16 +104,11 @@ class CashMachineServiceTest {
     @Test
     void changePin() {
 // @TODO create change pin test using spy as implementation and ArgumentCaptor and thenReturn
-        ArgumentCaptor<String> oldPinCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<String> newPinCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<String> numCaptor = ArgumentCaptor.forClass(String.class);
-        when(cardsDao.getCardByNumber(numCaptor.capture()))
+        when(cardsDao.getCardByNumber(any()))
                 .thenReturn(new Card(1, "100", 1L, getHash("0000")));
-        when(cardService.cnangePin(numCaptor.capture(), oldPinCaptor.capture(), newPinCaptor.capture())).thenReturn(true);
-        cashMachineService.changePin("100", "0000", "1111");
-        assertEquals("100", numCaptor.getValue());
-        assertEquals("0000", oldPinCaptor.getValue());
-        assertEquals("1111", newPinCaptor.getValue());
+        when(cardService.cnangePin(eq("100"), eq("0000"), eq("1111"))).thenReturn(true);
+        boolean result = cashMachineService.changePin("100", "0000", "1111");
+        assertTrue(result);
     }
 
     @Test

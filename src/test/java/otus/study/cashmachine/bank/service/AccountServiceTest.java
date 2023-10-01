@@ -10,8 +10,7 @@ import otus.study.cashmachine.bank.service.impl.AccountServiceImpl;
 import java.math.BigDecimal;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -68,26 +67,25 @@ public class AccountServiceTest {
 
     @Test
     void getSum() {
-        Account accountBeforeGetSum = new Account(1, new BigDecimal(2));
-        ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
-        when(accountDao.getAccount(longArgumentCaptor.capture())).thenReturn(accountBeforeGetSum);
+        Account actualAccount = new Account(1, new BigDecimal(2));
+        when(accountDao.getAccount(eq(1L))).thenReturn(actualAccount);
         accountService.getMoney(1L, new BigDecimal(2));
-        Account accountAfterGetSum = new Account(longArgumentCaptor.getValue(), new BigDecimal(0));
-        verify(accountDao, only()).getAccount(longArgumentCaptor.getValue());
-        assertEquals(accountBeforeGetSum, accountAfterGetSum);
+        Account expectedAccount = new Account(1L, new BigDecimal(0));
+        verify(accountDao, only()).getAccount(eq(1L));
+        assertEquals(expectedAccount, actualAccount);
     }
 
     @Test
     void getSumException(){
         Account account = new Account(1, new BigDecimal(10));
         when(accountDao.getAccount(1L)).thenReturn(account);
-        try{
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             accountService.getMoney(1L, new BigDecimal(100_000));
-        } catch (IllegalArgumentException e){
-            assertEquals("Not enough money", e.getMessage());
-            return;
-        }
-        fail();
+        });
+        String expectedMessage = "Not enough money";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+
 
     }
 
