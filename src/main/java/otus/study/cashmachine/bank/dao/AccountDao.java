@@ -1,9 +1,10 @@
 package otus.study.cashmachine.bank.dao;
 
+import org.springframework.stereotype.Service;
 import otus.study.cashmachine.bank.data.Account;
 import otus.study.cashmachine.bank.db.Accounts;
 
-
+@Service
 public class AccountDao {
     public Account getAccount(Long accountId) {
         if (!Accounts.accounts.containsKey(accountId)) {

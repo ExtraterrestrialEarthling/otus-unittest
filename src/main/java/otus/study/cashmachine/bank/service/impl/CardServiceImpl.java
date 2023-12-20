@@ -1,5 +1,7 @@
 package otus.study.cashmachine.bank.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import otus.study.cashmachine.bank.dao.CardsDao;
 import otus.study.cashmachine.bank.data.Card;
 import otus.study.cashmachine.bank.service.AccountService;
@@ -10,12 +12,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 
-
+@Service
 public class CardServiceImpl implements CardService {
     AccountService accountService;
 
     CardsDao cardsDao;
 
+    @Autowired
     public CardServiceImpl(final AccountService accountService, final CardsDao cardsDao) {
         this.accountService = accountService;
         this.cardsDao = cardsDao;

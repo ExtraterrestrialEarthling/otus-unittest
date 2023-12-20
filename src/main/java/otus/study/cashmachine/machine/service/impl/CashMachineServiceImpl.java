@@ -1,5 +1,7 @@
 package otus.study.cashmachine.machine.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import otus.study.cashmachine.bank.service.AccountService;
 import otus.study.cashmachine.bank.service.CardService;
 import otus.study.cashmachine.machine.data.CashMachine;
@@ -10,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Service
 public class CashMachineServiceImpl implements CashMachineService {
 
     private CardService cardService;
@@ -19,6 +21,7 @@ public class CashMachineServiceImpl implements CashMachineService {
 
     private MoneyBoxService moneyBoxService;
 
+@Autowired
     public CashMachineServiceImpl(final CardService cardService, final AccountService accountService, final MoneyBoxService moneyBoxService) {
         this.cardService = cardService;
         this.accountService = accountService;

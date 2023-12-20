@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Deposit</title>
+</head>
+<body>
+<ul>
+    <li><a href="/main-page">Back to the main page.</a></li>
+</ul>
+
+<h2>Deposit</h2>
+
+<form th:action="@{/deposit}" method="post">
+    <label for="cardNumber">Card Number:</label>
+    <input type="text" id="cardNumber" name="cardNumber" required />
+
+    <br/>
+
+    <label for="pin">PIN:</label>
+    <input type="password" id="pin" name="pin" required />
+
+    <br/>
+
+    <label for="count5000">Note Count (5000 denomination):</label>
+    <input type="number" id="count5000" name="count5000" min="0" required />
+    <br/>
+    <label for="count1000">Note Count (1000 denomination):</label>
+    <input type="number" id="count1000" name="count1000" min="0" required />
+    <br/>
+    <label for="count500">Note Count (500 denomination):</label>
+    <input type="number" id="count500" name="count500" min="0" required />
+    <br/>
+    <label for="count100">Note Count (100 denomination):</label>
+    <input type="number" id="count100" name="count100" min="0" required />
+
+    <br/>
+
+    <button type="submit">Insert money</button>
+</form>
+
+<p><span th:text="${status}"> status </span></p>
+
+
+
+</body>
+</html>
