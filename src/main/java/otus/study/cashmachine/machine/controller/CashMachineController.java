@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import otus.study.cashmachine.machine.data.CashMachine;
+import otus.study.cashmachine.machine.dto.ChangePinDto;
+import otus.study.cashmachine.machine.dto.DepositDto;
+import otus.study.cashmachine.machine.dto.WithdrawDto;
 import otus.study.cashmachine.machine.service.CashMachineService;
 
 import java.math.BigDecimal;
@@ -32,16 +35,12 @@ public class CashMachineController {
     }
 
     @PostMapping("/deposit")
-    public String deposit(@RequestParam String cardNumber,
-                          @RequestParam String pin,
-                          @RequestParam Integer count5000,
-                          @RequestParam Integer count1000,
-                          @RequestParam Integer count500,
-                          @RequestParam Integer count100,
+    public String deposit(@RequestBody DepositDto depositDto,
                           Model model) {
         try {
-            cashMachineService.putMoney(cashMachine, cardNumber, pin, List.of(count5000,
-                    count1000, count500, count100));
+            cashMachineService.putMoney(cashMachine, depositDto.getCardNumber(),
+                    depositDto.getPin(), List.of(depositDto.getCount5000(),
+                    depositDto.getCount1000(), depositDto.getCount500(), depositDto.getCount100()));
             model.addAttribute("status", "Money deposited successfully!");
 
             return "deposit";
@@ -56,19 +55,18 @@ public class CashMachineController {
     }
 
     @PostMapping("/withdraw")
-    public String withdraw(@RequestParam String cardNumber,
-                           @RequestParam String pin,
-                           @RequestParam String amount,
+    public String withdraw(@RequestBody WithdrawDto withdrawDto,
                            Model model) {
         try {
-            var list = cashMachineService.getMoney(cashMachine, cardNumber, pin, new BigDecimal(amount));
+            var list = cashMachineService.getMoney(cashMachine, withdrawDto.getCardNumber(),
+                    withdrawDto.getPin(), new BigDecimal(withdrawDto.getAmount()));
             model.addAttribute("result", "Withdrawal of:");
             model.addAttribute("count5000", String.format("5000 denomination: %d", list.get(0)));
             model.addAttribute("count1000", String.format("1000 denomination: %d", list.get(1)));
             model.addAttribute("count500", String.format("500 denomination: %d", list.get(2)));
             model.addAttribute("count100", String.format("100 denomination: %d", list.get(3)));
             return "withdraw";
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             model.addAttribute("status", "Not enough money");
             return "withdraw";
         }
@@ -84,15 +82,11 @@ public class CashMachineController {
                 String balance = String.format("Current balance: %s",
                         cashMachineService.checkBalance(cashMachine, cardNumber, pin).toString());
                 model.addAttribute("balance", balance);
-                return "check_balance";
             } catch (Exception e) {
                 return "error_form";
             }
         }
-        else{
-            return "check_balance";
-        }
-
+        return "check_balance";
     }
 
     @GetMapping("/change-pin")
@@ -101,12 +95,11 @@ public class CashMachineController {
     }
 
     @PostMapping("/change-pin")
-    public String changePin(@RequestParam String cardNumber,
-                            @RequestParam String oldPin,
-                            @RequestParam String newPin,
+    public String changePin(@RequestBody ChangePinDto changePinDto,
                             Model model) {
 
-        boolean successful = cashMachineService.changePin(cardNumber, oldPin, newPin);
+        boolean successful = cashMachineService.changePin(changePinDto.getCardNumber(),
+                changePinDto.getOldPin(), changePinDto.getNewPin());
 
         if (successful) {
             model.addAttribute("status", "Your pin has been changed.");

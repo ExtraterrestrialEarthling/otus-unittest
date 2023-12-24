@@ -18,7 +18,6 @@ public class CardServiceImpl implements CardService {
 
     CardsDao cardsDao;
 
-    @Autowired
     public CardServiceImpl(final AccountService accountService, final CardsDao cardsDao) {
         this.accountService = accountService;
         this.cardsDao = cardsDao;

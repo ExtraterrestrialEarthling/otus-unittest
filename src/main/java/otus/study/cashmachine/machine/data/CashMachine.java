@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 public class CashMachine {
     private MoneyBox moneyBox;
 
-    @Autowired
     public CashMachine(final MoneyBox moneyBox) {
         this.moneyBox = moneyBox;
     }

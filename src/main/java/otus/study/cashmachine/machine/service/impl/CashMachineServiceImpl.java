@@ -21,7 +21,6 @@ public class CashMachineServiceImpl implements CashMachineService {
 
     private MoneyBoxService moneyBoxService;
 
-@Autowired
     public CashMachineServiceImpl(final CardService cardService, final AccountService accountService, final MoneyBoxService moneyBoxService) {
         this.cardService = cardService;
         this.accountService = accountService;

@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 public class AccountServiceImpl implements AccountService {
     AccountDao accountDao;
 
-    @Autowired
     public AccountServiceImpl(final AccountDao accountDao) {
         this.accountDao = accountDao;
     }
