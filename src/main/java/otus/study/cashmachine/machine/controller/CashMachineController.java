@@ -1,5 +1,6 @@
 package otus.study.cashmachine.machine.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +36,7 @@ public class CashMachineController {
     }
 
     @PostMapping("/deposit")
-    public String deposit(@RequestBody DepositDto depositDto,
+    public String deposit(@Valid @ModelAttribute DepositDto depositDto,
                           Model model) {
         try {
             cashMachineService.putMoney(cashMachine, depositDto.getCardNumber(),
@@ -55,7 +56,7 @@ public class CashMachineController {
     }
 
     @PostMapping("/withdraw")
-    public String withdraw(@RequestBody WithdrawDto withdrawDto,
+    public String withdraw(@Valid @ModelAttribute WithdrawDto withdrawDto,
                            Model model) {
         try {
             var list = cashMachineService.getMoney(cashMachine, withdrawDto.getCardNumber(),
@@ -95,7 +96,7 @@ public class CashMachineController {
     }
 
     @PostMapping("/change-pin")
-    public String changePin(@RequestBody ChangePinDto changePinDto,
+    public String changePin(@Valid @ModelAttribute ChangePinDto changePinDto,
                             Model model) {
 
         boolean successful = cashMachineService.changePin(changePinDto.getCardNumber(),
