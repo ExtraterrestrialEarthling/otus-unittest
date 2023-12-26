@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Change pin</title>
+</head>
+<body>
+<ul>
+    <li><a href="/main-page">Back to the main page.</a></li>
+</ul>
+
+<h2>Change pin</h2>
+
+<form th:action="@{/change-pin}" method="post">
+    <label for="cardNumber">Card Number:</label>
+    <input type="text" id="cardNumber" name="cardNumber" required />
+
+    <br/>
+
+    <label for="oldPin">Old PIN:</label>
+    <input type="password" id="oldPin" name="oldPin" required />
+
+    <br/>
+
+    <label for="newPin">New PIN:</label>
+    <input type="password" id="newPin" name="newPin" required />
+    <br/>
+
+    <button type="submit">Change pin</button>
+</form>
+
+<p><span th:text="${status}"> status </span></p>
+
+</body>
+</html>
